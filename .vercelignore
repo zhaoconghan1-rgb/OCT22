@@ -1,0 +1,12 @@
+.git
+node_modules
+.pnpm-store
+work
+AGENTS.md
+项目记录.md
+docs
+tests
+scripts
+README.md
+*.tsbuildinfo
+outputs

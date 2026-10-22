@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@theme {
+ --color-paper:#fcf9f2; --color-ink:#1c1c18; --color-muted:#62645e; --color-rubric:#ab3333; --color-rule:#e5e2db; --color-wash:#f6f3ec;
+ --font-serif:"Songti SC","STSong","Noto Serif CJK SC",serif;
+ --font-sans: "PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+}
+@layer base{
+ body{@apply m-0 bg-paper text-ink font-serif text-base antialiased;}
+ button,a,input,select,textarea{touch-action:manipulation;}
+ button,a{@apply transition-colors;}
+ button{cursor:pointer;}
+ :focus-visible{outline:2px solid #ab3333;outline-offset:4px;}
+ button:disabled{@apply cursor-not-allowed opacity-50;}
+ ::selection{background:#ffdad7;color:#410004;}
+}
+@layer components{
+ .shell{@apply mx-auto w-full max-w-[1440px] px-6 lg:px-14;}
+ .eyebrow{@apply font-sans text-xs tracking-[.16em] text-muted;}
+ .primary{@apply inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-rubric px-5 py-2.5 font-sans text-sm font-medium text-white hover:bg-[#852626];}
+ .secondary{@apply inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-rule bg-wash px-4 py-2.5 font-sans text-sm hover:border-muted;}
+ .text-link{@apply text-rubric underline decoration-rubric/30 underline-offset-4 hover:decoration-rubric;}
+ .field{@apply w-full min-w-0 rounded-sm border border-rule bg-white px-3 py-3 font-sans text-sm text-ink placeholder:text-muted focus:border-rubric focus:outline-none focus:ring-1 focus:ring-rubric;}
+ .label{@apply mb-2 block font-sans text-sm font-medium;}
+ .badge{@apply inline-flex rounded-sm bg-wash px-2 py-1 font-sans text-xs text-muted;}
+ .couplet-text{@apply break-words text-xl font-semibold leading-[1.9] tracking-wide lg:text-2xl;overflow-wrap:anywhere;}
+ .nav-link{@apply whitespace-nowrap border-b-2 border-transparent py-3 font-sans text-sm font-medium text-muted hover:text-rubric;}
+ .nav-link[aria-current=page]{@apply border-rubric text-ink;}
+ .modal{margin:auto;width:min(860px,calc(100vw - 40px));max-height:calc(100dvh - 48px);overflow:auto;padding:0;border:1px solid #e5e2db;border-radius:4px;background:#fcf9f2;color:#1c1c18;box-shadow:0 30px 100px #0003;}
+ .modal::backdrop{background:#1c1c1880;backdrop-filter:blur(3px);}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;}}

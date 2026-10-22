@@ -1,0 +1,10 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {blankSearch,findCouplets,readSearch,searchRoute} from '../src/search.ts';
+import {couplets,places,cities} from '../src/data.ts';
+test('查询状态能写入地址并完整恢复',()=>{const v={q:'明月 清风',place:'沧浪亭',author:'齐彦槐',dynasty:'清'};assert.deepEqual(readSearch(new URL(searchRoute(v),'http://localhost').searchParams),v)});
+test('关键词、景点、作者、朝代同时生效',()=>{const v={q:'攻心',place:'成都',author:'赵藩',dynasty:'清'};assert.deepEqual(findCouplets(v).map(c=>c.id),['cd-001']);assert.equal(findCouplets({...v,dynasty:'宋'}).length,0)});
+test('多个关键词要求同时命中，忽略标点',()=>{assert.deepEqual(findCouplets({...blankSearch,q:'明月 清风'}).map(c=>c.id),['sz-001']);assert.equal(findCouplets({...blankSearch,q:'攻心 荷花'}).length,0);assert.equal(findCouplets({...blankSearch,q:'能攻心则反侧自消从古知兵非好战'}).length,1)});
+test('未知时代不冒充已有年代，但无年代筛选时保留',()=>{assert.equal(findCouplets({...blankSearch,author:'黄文中'}).length,1);assert.equal(findCouplets({...blankSearch,author:'黄文中',dynasty:'清'}).length,0)});
+test('空查询返回全部，特殊字符不会成为正则表达式',()=>{assert.equal(findCouplets(blankSearch).length,couplets.length);assert.equal(findCouplets({...blankSearch,q:'[.*'}).length,0)});
+test('内容标识唯一，联文、景点、城市、来源关联完整',()=>{for(const group of [cities,places,couplets])assert.equal(new Set(group.map(x=>x.id)).size,group.length);for(const p of places)assert.ok(cities.some(c=>c.id===p.cityId));for(const c of couplets){assert.ok(places.some(p=>p.id===c.placeId));assert.ok(c.upper&&c.lower);assert.equal(new URL(c.source.url).protocol,'https:')}});
