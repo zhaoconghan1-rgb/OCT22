@@ -2,7 +2,8 @@ import {useEffect,useState,type FormEvent} from 'react';
 import {getCity,type Place,type Couplet} from './data';
 import {Modal} from './components';
 import {sendSubmission,validateSubmission,validEndpoint} from './submission';
-const endpoint=import.meta.env.VITE_SUBMISSION_ENDPOINT?.trim()||'';
+// 公开表单端点，不含收件邮箱或后台凭据；显式设置空环境变量可关闭投稿。
+const endpoint=(import.meta.env.VITE_SUBMISSION_ENDPOINT??'https://formspree.io/f/mzeepoeq').trim();
 const enabled=validEndpoint(endpoint);
 type Fields={upper:string;lower:string;author:string;dynasty:string;position:string;note:string;source:string};
 const empty:Fields={upper:'',lower:'',author:'',dynasty:'',position:'',note:'',source:''};
