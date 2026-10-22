@@ -5,3 +5,6 @@ work/
 
 .pnpm-store/
 outputs/
+.env
+.env.*
+!.env.example
